@@ -108,7 +108,7 @@ $days_until_deadline = null;
                     <label class="checkbox">
                         <a href="/">
                             <?php
-                            if ($show_complete_tasks=1) :?>
+                            if ($show_complete_tasks==1) :?>
                             	<input class="checkbox__input visually-hidden" type="checkbox" checked>
                             <?php else:?>
                             	<input class="checkbox__input visually-hidden" type="checkbox" >
@@ -134,7 +134,7 @@ $days_until_deadline = null;
    									</td>
 								</tr>
 							<?php endif;?>
-                    <tr class="tasks__item task task--completed">
+                    <tr class="tasks__item task">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
