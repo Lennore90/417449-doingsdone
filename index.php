@@ -10,10 +10,10 @@ $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка вр
 $current_ts = strtotime('now midnight'); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date( 'd.m.Y',$task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = ((strtotime($date_deadline)-$current_ts)/86400);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -107,20 +107,42 @@ $days_until_deadline = null;
 
                     <label class="checkbox">
                         <a href="/">
-                            <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                            <input class="checkbox__input visually-hidden" type="checkbox">
+                            <?php
+                            if ($show_complete_tasks==1) :?>
+                            	<input class="checkbox__input visually-hidden" type="checkbox" checked>
+                            <?php else:?>
+                            	<input class="checkbox__input visually-hidden" type="checkbox" >
+                            <?php endif;?>
                             <span class="checkbox__text">Показывать выполненные</span>
                         </a>
                     </label>
                 </div>
 
                 <table class="tasks">
-                    <!--показывать следующий тег <tr/>, если переменная равна единице-->
-                    <tr class="tasks__item task task--completed">
+                    <?php
+                            if ($show_complete_tasks ==1):?>
+                            	<tr class="tasks__item task task--completed">
+    								<td class="task__select">
+        								<label class="checkbox task__checkbox">
+            								<input class="checkbox__input visually-hidden" type="checkbox" checked>
+            								<span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
+        								</label>
+    								</td>
+    								<td class="task__date">10.04.2017</td>
+
+    								<td class="task__controls">
+   									</td>
+								</tr>
+							<?php endif;?>
+                    <?php if ($days_until_deadline <=0): ?> 
+                      <tr class="tasks__item task task--important">
+                    <?php else: ?>
+                      <tr class="tasks__item task">
+                    <?php endif; ?>
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <a href="/"><span class="checkbox__text">Сделать главную страницу Дела в порядке</span></a>
+                                <a href="/"><span class="checkbox__text">Выполнить домашнее задание</span></a> 
                             </label>
 
                         </td>
@@ -129,14 +151,18 @@ $days_until_deadline = null;
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"><!--выведите здесь дату выполнения задачи--></td>
+                        <td class="task__date">
+                        	<?php
+                        		print ("$date_deadline");
+                        	?>
+                        </td>
                     </tr>
 
                     <tr class="tasks__item task">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox">
-                                <a href="/"><span class="checkbox__text">Выполнить домашнее задание</span></a>
+                                <a href="/"><span class="checkbox__text">Сделать главную страницу Дела в порядке</span></a> 
                             </label>
                         </td>
 
