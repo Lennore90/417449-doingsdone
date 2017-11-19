@@ -103,6 +103,7 @@ $array_tasks = [
                                 <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
                                 <span class="main-navigation__list-item-count">0</span>
                             </li>
+                            <?php $project_count++?>
                         <?php endforeach?>
                     </ul>
                 </nav>
