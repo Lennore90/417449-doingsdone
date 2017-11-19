@@ -93,6 +93,12 @@ $array_tasks = [
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($project_cats as $project_name):?>
+                            <?php
+                            $active_class = '';
+                            if ($project_count === 0) {
+                                $active_class = 'main-navigation__list-item--active';
+                            }
+                            ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
                                 <span class="main-navigation__list-item-count">0</span>
