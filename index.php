@@ -5,15 +5,49 @@ $show_complete_tasks = rand(0, 1);
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
-$days = rand(-3, 3);
-$task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
-$current_ts = strtotime('now midnight'); // текущая метка времени
+$project_cats=["Все","Входящие","Учеба","Работа","Домашние дела","Авто"];
 
-// запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = date( 'd.m.Y',$task_deadline_ts);
+$array_tasks = [
+0=> [
+'task_name' => 'Собеседование в IT компании',
+'date_of_deadline' => '01.06.2018',
+'task_category'=>'Работа',
+'task_done'=>false
+],
+1=> [
+'task_name' => 'Выполнить тестовое задание',
+'date_of_deadline' => '20.05.2018',
+'task_category'=>'Работа',
+'task_done'=>false
+],
+2=> [
+'task_name' => 'Сделать задание первого раздела',
+'date_of_deadline' => '24.01.2018',
+'task_category'=>'Учеба',
+'task_done'=>true
+],
+3=> [
+'task_name' => 'Встреча с другом',
+'date_of_deadline' => '22.04.2018',
+'task_category'=>'Входящие',
+'task_done'=>false
+],
+4=> [
+'task_name' => 'Купить корм для кота',
+'date_of_deadline' => null,
+'task_category'=>'Домашние дела',
+'task_done'=>false
+],
+5=> [
+'task_name' => 'Заказать пиццу',
+'date_of_deadline' => null,
+'task_category'=>'Домашние дела',
+'task_done'=>false
+]
+];
 
-// в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = ((strtotime($date_deadline)-$current_ts)/86400);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -58,30 +92,20 @@ $days_until_deadline = ((strtotime($date_deadline)-$current_ts)/86400);
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Входящие</a>
-                            <span class="main-navigation__list-item-count">24</span>
-                        </li>
-
-                        <li class="main-navigation__list-item main-navigation__list-item--active">
-                            <a class="main-navigation__list-item-link" href="#">Работа</a>
-                            <span class="main-navigation__list-item-count">12</span>
-                        </li>
-
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Здоровье</a>
-                            <span class="main-navigation__list-item-count">3</span>
-                        </li>
-
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Домашние дела</a>
-                            <span class="main-navigation__list-item-count">7</span>
-                        </li>
-
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Авто</a>
-                            <span class="main-navigation__list-item-count">0</span>
-                        </li>
+                        <?php $project_count = 0;?>
+                        <?php foreach ($project_cats as $project_name):?>
+                            <?php
+                            $active_class = '';
+                            if ($project_count === 0) {
+                                $active_class = 'main-navigation__list-item--active';
+                            }
+                            ?>
+                            <li class="main-navigation__list-item">
+                                <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
+                                <span class="main-navigation__list-item-count">0</span>
+                            </li>
+                            <?php $project_count++?>
+                        <?php endforeach?>
                     </ul>
                 </nav>
 
@@ -119,57 +143,34 @@ $days_until_deadline = ((strtotime($date_deadline)-$current_ts)/86400);
                 </div>
 
                 <table class="tasks">
-                    <?php
-                            if ($show_complete_tasks ==1):?>
-                            	<tr class="tasks__item task task--completed">
-    								<td class="task__select">
-        								<label class="checkbox task__checkbox">
-            								<input class="checkbox__input visually-hidden" type="checkbox" checked>
-            								<span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-        								</label>
-    								</td>
-    								<td class="task__date">10.04.2017</td>
 
-    								<td class="task__controls">
-   									</td>
-								</tr>
-							<?php endif;?>
-                        <?php if ($days_until_deadline <=0): ?> 
-                          <tr class="tasks__item task task--important">
-                        <?php else: ?>
-                          <tr class="tasks__item task">
-                        <?php endif; ?>
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <a href="/"><span class="checkbox__text">Выполнить домашнее задание</span></a> 
-                            </label>
-                        </td>
-
-                        <td class="task__file">
-                            <a class="download-link" href="#">Home.psd</a>
-                        </td>
-
-                        <td class="task__date">
-                        	<?php
-                        		print ("$date_deadline");
-                        	?>
-                        </td>
-                    </tr>
-
-                    <tr class="tasks__item task">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox">
-                                <a href="/"><span class="checkbox__text">Сделать главную страницу Дела в порядке</span></a> 
-                            </label>
-                        </td>
-
-                        <td class="task__file">
-                        </td>
-
-                        <td class="task__date">21.03.2017</td>
-                    </tr>
+                    <?php foreach ($array_tasks as $key => $value) :?>
+                        <?php if (!$value['task_done'] || $show_complete_tasks === 1):?>
+                            <?php
+                            $task_class = '';
+                            $task_checked = '';
+                            if ($value['task_done']) {
+                                $task_class = 'task--completed';
+                                $task_checked = 'checked';
+                            } else {
+                                if (!empty($value['date_of_deadline']) && ((strtotime($value['date_of_deadline'])- time())/86400) <= 0) {
+                                    $task_class = 'task--important';
+                                }
+                            }
+                            ?>
+                        <tr class="tasks__item task <?php echo $task_class ?>")> 
+                            <td class="task__select">
+                                <label class="checkbox task__checkbox">
+                                    <input class="checkbox__input visually-hidden" type="checkbox" <?php echo $task_checked?>>
+                                    <span class="checkbox__text"><?=$value['task_name']?></span>
+                                </label>
+                            <td class="task__file">
+                            </td>
+                            </td>
+                            <td class="task__date"><?=$value['date_of_deadline']?></td>
+                        </tr>
+                        <?php endif?>
+                    <?php endforeach ;?>
                 </table>
             </main>
         </div>
