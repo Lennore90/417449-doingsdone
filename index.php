@@ -40,7 +40,7 @@ $array_tasks = [
 ],
 5=> [
 'task_name' => 'Заказать пиццу',
-'date_of_deadline' => '18.11.2017',
+'date_of_deadline' => null,
 'task_category'=>'Домашние дела',
 'task_done'=>false
 ]
@@ -95,7 +95,7 @@ $array_tasks = [
                         <?php foreach ($project_cats as $project_name):?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
-                                <span class="main-navigation__list-item-count">?</span>
+                                <span class="main-navigation__list-item-count">0</span>
                             </li>
                         <?php endforeach?>
                     </ul>
