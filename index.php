@@ -46,8 +46,27 @@ $array_tasks = [
 ]
 ];
 
+function count_tasks($project_name,$array_tasks){
+    $taskCount = 0; 
+    if ($project_name === 'Все') { 
+    $taskCount=count($array_tasks);
+    } else {
+        $index=0;
+        $sum_tasks=count($array_tasks);
+        while ($index<$sum_tasks){
+            foreach ($array_tasks[$index] as $key=>$value ) {
+                if ($key == 'task_category'){
+                    if ($value == $project_name){ 
+                    $taskCount++;
+                    }
+                }
+            }
+            $index++;
+        }
+        
+    } 
 
-
+return $taskCount; }
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -92,6 +111,7 @@ $array_tasks = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
+                        <?php $project_count = 0;?>
                         <?php foreach ($project_cats as $project_name):?>
                             <?php
                             $active_class = '';
@@ -101,8 +121,9 @@ $array_tasks = [
                             ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
                             </li>
+                            <?php $project_count++?>
                         <?php endforeach?>
                     </ul>
                 </nav>
