@@ -51,20 +51,12 @@ function count_tasks($project_name,$array_tasks){
     if ($project_name === 'Все') { 
     $taskCount=count($array_tasks);
     } else {
-        $index=0;
-        $sum_tasks=count($array_tasks);
-        while ($index<$sum_tasks){
-            foreach ($array_tasks[$index] as $key=>$value ) {
-                if ($key == 'task_category'){
-                    if ($value == $project_name){ 
+        foreach ($array_tasks as $task ) {
+                if ($task ['task_category'] == $project_name){ 
                     $taskCount++;
-                    }
                 }
             }
-            $index++;
-        }
-        
-    } 
+        } 
 
 return $taskCount; }
 ?>
