@@ -1,79 +1,9 @@
-<?php
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
-
-// устанавливаем часовой пояс в Московское время
-date_default_timezone_set('Europe/Moscow');
-
-$project_cats=["Все","Входящие","Учеба","Работа","Домашние дела","Авто"];
-
-$array_tasks = [
-0=> [
-'task_name' => 'Собеседование в IT компании',
-'date_of_deadline' => '01.06.2018',
-'task_category'=>'Работа',
-'task_done'=>false
-],
-1=> [
-'task_name' => 'Выполнить тестовое задание',
-'date_of_deadline' => '20.05.2018',
-'task_category'=>'Работа',
-'task_done'=>false
-],
-2=> [
-'task_name' => 'Сделать задание первого раздела',
-'date_of_deadline' => '24.01.2018',
-'task_category'=>'Учеба',
-'task_done'=>true
-],
-3=> [
-'task_name' => 'Встреча с другом',
-'date_of_deadline' => '22.04.2018',
-'task_category'=>'Входящие',
-'task_done'=>false
-],
-4=> [
-'task_name' => 'Купить корм для кота',
-'date_of_deadline' => null,
-'task_category'=>'Домашние дела',
-'task_done'=>false
-],
-5=> [
-'task_name' => 'Заказать пиццу',
-'date_of_deadline' => null,
-'task_category'=>'Домашние дела',
-'task_done'=>false
-]
-];
-
-function count_tasks($project_name,$array_tasks){
-    $taskCount = 0; 
-    if ($project_name === 'Все') { 
-    $taskCount=count($array_tasks);
-    } else {
-        $index=0;
-        $sum_tasks=count($array_tasks);
-        while ($index<$sum_tasks){
-            foreach ($array_tasks[$index] as $key=>$value ) {
-                if ($key == 'task_category'){
-                    if ($value == $project_name){ 
-                    $taskCount++;
-                    }
-                }
-            }
-            $index++;
-        }
-        
-    } 
-
-return $taskCount; }
-?>
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
-    <title>Дела в порядке</title>
+    <title><?=$page_title;?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -130,68 +60,7 @@ return $taskCount; }
 
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
             </section>
-
-            <main class="content__main">
-                <h2 class="content__main-heading">Список задач</h2>
-
-                <form class="search-form" action="index.html" method="post">
-                    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
-
-                    <input class="search-form__submit" type="submit" name="" value="Искать">
-                </form>
-
-                <div class="tasks-controls">
-                    <nav class="tasks-switch">
-                        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                        <a href="/" class="tasks-switch__item">Повестка дня</a>
-                        <a href="/" class="tasks-switch__item">Завтра</a>
-                        <a href="/" class="tasks-switch__item">Просроченные</a>
-                    </nav>
-
-                    <label class="checkbox">
-                        <a href="/">
-                            <?php
-                            if ($show_complete_tasks==1) :?>
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                            <?php else:?>
-                                <input class="checkbox__input visually-hidden" type="checkbox" >
-                            <?php endif;?>
-                            <span class="checkbox__text">Показывать выполненные</span>
-                        </a>
-                    </label>
-                </div>
-
-                <table class="tasks">
-
-                    <?php foreach ($array_tasks as $key => $value) :?>
-                        <?php if (!$value['task_done'] || $show_complete_tasks === 1):?>
-                            <?php
-                            $task_class = '';
-                            $task_checked = '';
-                            if ($value['task_done']) {
-                                $task_class = 'task--completed';
-                                $task_checked = 'checked';
-                            } else {
-                                if (!empty($value['date_of_deadline']) && ((strtotime($value['date_of_deadline'])- time())/86400) <= 0) {
-                                    $task_class = 'task--important';
-                                }
-                            }
-                            ?>
-                        <tr class="tasks__item task <?php echo $task_class ?>")> 
-                            <td class="task__select">
-                                <label class="checkbox task__checkbox">
-                                    <input class="checkbox__input visually-hidden" type="checkbox" <?php echo $task_checked?>>
-                                    <span class="checkbox__text"><?=$value['task_name']?></span>
-                                </label>
-                            <td class="task__file">
-                            </td>
-                            </td>
-                            <td class="task__date"><?=$value['date_of_deadline']?></td>
-                        </tr>
-                        <?php endif?>
-                    <?php endforeach ;?>
-                </table>
-            </main>
+            <?=$page_content;?>
         </div>
     </div>
 </div>
