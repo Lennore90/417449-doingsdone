@@ -50,7 +50,7 @@
                             }
                             ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>>"><?php echo $project_name?></a>
+                                <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
                                 <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
                             </li>
                             <?php $project_count++?>
