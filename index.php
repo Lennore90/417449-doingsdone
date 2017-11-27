@@ -13,17 +13,19 @@ require_once('data.php');
 $task_list = [];
 	if (isset($_GET['project_id'])) {
 		$index=$_GET['project_id'];
-		if ($index > count($project_cats)) {
-			http_response_code(404);
-		}else {
+		if (array_key_exists($index, $project_cats)) {
 			$cat=$project_cats[$index];
-			foreach ($array_tasks as $task) {
-				if ($task['task_category']== $cat) {
-					$task_list[]=$task;
-				} elseif ($cat== 'Все'){
+			if ($cat== 'Все'){
 					$task_list=$array_tasks;
+				} else {
+					foreach ($array_tasks as $task) {
+						if ($task['task_category']== $cat) {
+						$task_list[]=$task;
+					} 
 				}
 			}
+		}else {
+			http_response_code(404);
 		}
 	} else {
 		$task_list = $array_tasks;
