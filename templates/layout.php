@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body><!--class="overlay"-->
+<body <?php if (isset($_GET['add'])) {echo 'class="overlay"';}?>>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
@@ -19,7 +19,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="#">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus" href="/?add">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -45,11 +45,11 @@
                         <?php foreach ($project_cats as $key =>  $project_name):?>
                             <?php
                             $active_class = '';
-                            if ($project_count === 0) {
+                            if (isset($_GET['project_id']) && $key == $_GET['project_id']) {
                                 $active_class = 'main-navigation__list-item--active';
                             }
                             ?>
-                            <li class="main-navigation__list-item">
+                            <li class="main-navigation__list-item <?php echo $active_class ?>" >
                                 <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
                                 <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
                             </li>

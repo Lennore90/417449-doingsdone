@@ -8,24 +8,47 @@ date_default_timezone_set('Europe/Moscow');
 require_once('functions.php');
 require_once('data.php');
 
+if (isset($_GET['add'])){
+	$content = renderTemplate('templates/forms.php', [
+													'error' => $error,
+													'class_error' => $class_error,
+													'file' => $file,
+													'key' => $key,
+													'value' => $value,
+													]);
+
+}
+if (isset($_POST)) {
+	
+	array_unshift($array_tasks, array('task_name' => htmlspecialchars($_POST['name']),
+									  'date_of_deadline' => htmlspecialchars($_POST['date']),
+									  'task_category'=>htmlspecialchars($_POST['project']),
+									  'task_done'=>false));
+}
+
 $task_list = [];
 	if (isset($_GET['project_id'])) {
 		$index=$_GET['project_id'];
-		if ($index > count($project_cats)) {
-			http_response_code(404);
-		}else {
+		if (array_key_exists($index, $project_cats)) {
 			$cat=$project_cats[$index];
-			foreach ($array_tasks as $task) {
-				if ($task['task_category']== $cat) {
-					$task_list[]=$task;
-				} elseif ($cat== 'Все'){
+			if ($cat== 'Все'){
 					$task_list=$array_tasks;
+				} else {
+					foreach ($array_tasks as $task) {
+						if ($task['task_category']== $cat) {
+						$task_list[]=$task;
+					} 
 				}
 			}
+		}else {
+			http_response_code(404);
 		}
 	} else {
 		$task_list = $array_tasks;
 	}
+
+
+
 $content = renderTemplate('templates/index.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'array_tasks' => $task_list,
