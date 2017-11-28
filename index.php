@@ -9,20 +9,14 @@ require_once('functions.php');
 require_once('data.php');
 
 if (isset($_GET['add'])){
-	$content = renderTemplate('templates/forms.php', [
-													'error' => $error,
-													'class_error' => $class_error,
-													'file' => $file,
-													'key' => $key,
-													'value' => $value,
-													]);
+	require_once('templates/forms.php');
 
 }
 if (isset($_POST)) {
 	
-	array_unshift($array_tasks, array('task_name' => htmlspecialchars($_POST['name']),
-									  'date_of_deadline' => htmlspecialchars($_POST['date']),
-									  'task_category'=>htmlspecialchars($_POST['project']),
+	array_unshift($array_tasks, array('task_name' => $_POST['name'],
+									  'date_of_deadline' => $_POST['date'],
+									  'task_category'=>$_POST['project'],
 									  'task_done'=>false));
 }
 
