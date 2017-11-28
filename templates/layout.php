@@ -42,7 +42,7 @@
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php $project_count = 0;?>
-                        <?php foreach ($project_cats as $project_name):?>
+                        <?php foreach ($project_cats as $key =>  $project_name):?>
                             <?php
                             $active_class = '';
                             if ($project_count === 0) {
@@ -50,7 +50,7 @@
                             }
                             ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?php echo $project_name?></a>
+                                <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
                                 <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
                             </li>
                             <?php $project_count++?>
