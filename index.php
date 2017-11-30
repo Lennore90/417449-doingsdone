@@ -8,16 +8,42 @@ date_default_timezone_set('Europe/Moscow');
 require_once('functions.php');
 require_once('data.php');
 
-if (isset($_GET['add'])){
-	require_once('templates/forms.php');
+$add_form=null;
+$required_fields=['name','project', 'date'];
+$errors=[];
+$error='<p class="form__message">Заполните это поле</p>';
+$class_error='form__input--error';
+$task_file=null;
+$set_date=null;
 
+if (!empty($_POST)) {
+  foreach ($required_fields as $input) {
+    if ( ($_POST[$input] === ('---Выберите категорию---') || empty($_POST[$input]))) {
+        $errors[]=$input;           
+    }
+  }
 }
-if (isset($_POST)) {
-	
-	array_unshift($array_tasks, array('task_name' => $_POST['name'],
-									  'date_of_deadline' => $_POST['date'],
-									  'task_category'=>$_POST['project'],
-									  'task_done'=>false));
+if (!empty($_POST)&&empty($errors)) {
+if (is_uploaded_file ($_FILES['preview']['tmp_name'] )){
+  move_uploaded_file($_FILES['preview']['tmp_name'], $_FILES['preview']['name']);
+  $task_file=$_FILES['preview']['name'];}
+$set_date=date('d.m.Y',strtotime($_POST['date']));
+array_unshift($array_tasks,['task_name' => htmlspecialchars($_POST['name']),
+                            'date_of_deadline' =>$set_date,
+                            'task_category'=>$_POST['project'],
+                            'task_done'=>false,
+                            'task_file'=>$task_file
+                            ]);
+}
+
+
+if (isset($_GET['add'])||!empty($errors)){
+	$add_form=renderTemplate('templates/forms.php', ['errors' => $errors,
+													'error' => $error,
+													'class_error' => $class_error,
+													'project_cats' => $project_cats,
+													]);
+
 }
 
 $task_list = [];
@@ -53,6 +79,7 @@ $page_layout = renderTemplate('templates/layout.php', [
     'page_content' => $content,
     'project_cats' => $project_cats,
     'array_tasks' => $array_tasks,
+    'add_form' => $add_form,
 ]);
 
 print ($page_layout);

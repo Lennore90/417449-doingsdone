@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body <?php if (isset($_GET['add'])) {echo 'class="overlay"';}?>>
+<body <?php if (!empty($add_form)) {echo 'class="overlay"';}?>>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
@@ -73,7 +73,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="/?add">Добавить задачу</a>
+        <?=$add_form;?>
         
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>

@@ -28,15 +28,3 @@ function count_tasks($project_name,$array_tasks){
 
 return $taskCount; }
 
-function check_input($data, $problem='')
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    if ($problem && strlen($data) == 0)
-    {
-        show_error($problem);
-    }
-    return $data;
-}
-?>

@@ -50,9 +50,9 @@
                         <input class="checkbox__input visually-hidden" type="checkbox" <?php echo $task_checked?>>
                         <span class="checkbox__text"><?=$value['task_name']?></span>
                     </label>
-                <td class="task__file">
+                
                 </td>
-                </td>
+                <td class="task__file"><?=$value['task_file']?></td>
                 <td class="task__date"><?=$value['date_of_deadline']?></td>
             </tr>
             <?php endif?>
