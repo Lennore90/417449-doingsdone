@@ -27,4 +27,4 @@ function count_tasks($project_name,$array_tasks){
     } 
 
 return $taskCount; }
-?>
+
