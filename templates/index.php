@@ -38,7 +38,7 @@
                         $task_class = 'task--important';
                     }
                 }
-                ?>
+            ?>
             <tr class="tasks__item task <?=$task_class ?>")> 
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
