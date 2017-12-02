@@ -1,25 +1,25 @@
 <?php
 // показывать или нет выполненные задачи
-
-$show_complete_tasks = '';
-$bisquite_name="show_check";
-$bisquite_value=0;
-$bisquite_expire=strtotime("+30 days");
-$bisquite_path = "/index.php";
-
-if ($bisquite_value==1){
-	$task_check='checked';
-}
-
-setcookie($bisquite_name, $bisquite_value, $bisquite_expire, $bisquite_path);
+if (isset($_COOKIE["show_check"])) {
+		$show_complete_tasks =  $_COOKIE["show_check"];
+	}else{
+		$show_complete_tasks=0;
+	} 
 
 if (isset($_GET['check'])) {
-	if ($bisquite_value == 0) {
-		$bisquite_value=1;
-	} else {
-		$bisquite_value=0;
+	if ($show_complete_tasks == 0) {
+		$show_complete_tasks=1;
+	} elseif ($show_complete_tasks==1) {
+		$show_complete_tasks=0;
 	}
 }
+
+$bisquite_name="show_check";
+$bisquite_value=$show_complete_tasks;
+$bisquite_expire=strtotime("+30 days");
+$bisquite_path = "/";
+
+setcookie($bisquite_name, $bisquite_value, $bisquite_expire, $bisquite_path);
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
