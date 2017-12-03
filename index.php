@@ -1,30 +1,32 @@
 <?php
-// показывать или нет выполненные задачи
-$show_complete_tasks = '';
-$bisquite_name="show_check";
-$bisquite_value=0;
-$bisquite_expire=strtotime("+30 days");
-$bisquite_path = "/index.php";
-
-if ($bisquite_value==1){
-	$task_check='checked';
-}
-
-setcookie($bisquite_name, $bisquite_value, $bisquite_expire, $bisquite_path);
-
-if (isset($_GET['check'])) {
-	if ($bisquite_value == 0) {
-		$bisquite_value=1;
-	} else {
-		$bisquite_value=0;
-	}
-}
-
+require_once('functions.php');
+require_once('data.php');
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
-require_once('functions.php');
-require_once('data.php');
+if (!isset($_SESSION)) {
+	if (!isset($login)) {
+		require_once('templates/guest.php');
+	} else {
+		if (!isset($_POST['auth_form'])) {
+			renderTemplate('templates/auth_form.php', [templates]);
+		} else {
+			if
+		}
+	}
+}
+
+
+// показывать или нет выполненные задачи
+$show_complete_tasks = $_COOKIE["show_check"] ?? 0; 
+if (isset($_GET['check'])) { 
+$show_complete_tasks = !$show_complete_tasks; 
+setcookie('show_check', $show_complete_tasks, strtotime("+30 days"), '/'); 
+} 
+
+
+
+
 
 $required_fields=['name','project', 'date'];
 $errors=[];
@@ -74,28 +76,31 @@ if (isset($_GET['add']) || !empty($errors)){
 	]);
 }
 
-
 $task_list = [];
 
-	if (isset($_GET['project_id'])) {
-		$index=$_GET['project_id'];
-		if (array_key_exists($index, $project_cats)) {
-			$cat=$project_cats[$index];
-			if ($cat== 'Все'){
-					$task_list=$array_tasks;
-			} else {
-				foreach ($array_tasks as $task) {
-					if ($task['task_category']== $cat) {
-						$task_list[]=$task;
-					} 
-				}
+if (isset($_GET['project_id'])) {
+	$index=$_GET['project_id'];
+	if (array_key_exists($index, $project_cats)) {
+		$cat=$project_cats[$index];
+		if ($cat== 'Все'){
+				$task_list=$array_tasks;
+		} else {
+			foreach ($array_tasks as $task) {
+				if ($task['task_category']== $cat) {
+					$task_list[]=$task;
+				} 
 			}
-		}else {
-			http_response_code(404);
 		}
-	} else {
-		$task_list = $array_tasks;
+	}else {
+		http_response_code(404);
 	}
+} else {
+	$task_list = $array_tasks;
+}
+	
+if (isset($_GET['logout'])) {
+	require_once('logout.php');
+}
 
 $content = renderTemplate('templates/index.php', [
     'show_complete_tasks' => $show_complete_tasks,

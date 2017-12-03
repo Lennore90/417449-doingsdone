@@ -16,8 +16,12 @@
         </nav>
 
         <label class="checkbox">
-            <a href="/?check">                
-                    <input class="checkbox__input visually-hidden" type="checkbox" <?=$show_complete_tasks?>>                
+            <a href="/?check">
+                <?if ($show_complete_tasks == 1) :?>
+                    <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                <? else:?>
+                    <input class="checkbox__input visually-hidden" type="checkbox">
+                <? endif;?>               
                 <span class="checkbox__text">Показывать выполненные</span>
             </a>
         </label>
@@ -26,7 +30,7 @@
     <table class="tasks">
 
         <?php foreach ($array_tasks as $key => $value) :?>
-            <?php if (!$value['task_done'] || ($show_complete_tasks == 'checked')):?>
+            <?php if (!$value['task_done'] || ($show_complete_tasks == 1)):?>
                 <?php
                 $task_class = '';
                 $task_checked = '';

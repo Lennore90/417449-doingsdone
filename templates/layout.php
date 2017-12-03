@@ -12,58 +12,75 @@
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
-        <header class="main-header">
+
+    <?php if (isset($_SESSION)):?>
+        <div class="container container--with-sidebar">
+            <header class="main-header">
+                <a href="#">
+                    <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+                </a>
+
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--plus" href="/?add">Добавить задачу</a>
+
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__image">
+                            <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
+                        </div>
+
+                        <div class="user-menu__data">
+                            <p><?=$User_Name?></p>
+
+                            <a href="/?logout">Выйти</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+    
+            <div class="content">
+                <section class="content__side">
+                    <h2 class="content__side-heading">Проекты</h2>
+
+                    <nav class="main-navigation">
+                        <ul class="main-navigation__list">
+                            <?php $project_count = 0;?>
+                            <?php foreach ($project_cats as $key =>  $project_name):?>
+                                <?php
+                                $active_class = '';
+                                if (isset($_GET['project_id']) && $key == $_GET['project_id']) {
+                                    $active_class = 'main-navigation__list-item--active';
+                                }
+                                ?>
+
+                                <li class="main-navigation__list-item <?php echo $active_class ?>" >
+                                    <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
+                                    <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
+                                </li>
+                                <?php $project_count++?>
+                            <?php endforeach?>
+                        </ul>
+                    </nav>
+
+                    <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
+                </section>
+                <?=$page_content;?>
+            </div>
+        </div>
+    <? else:?>
+        <div class="container">
+          <header class="main-header">
             <a href="#">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+              <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="/?add">Добавить задачу</a>
-
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__image">
-                        <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
-                    </div>
-
-                    <div class="user-menu__data">
-                        <p>Константин</p>
-
-                        <a href="#">Выйти</a>
-                    </div>
-                </div>
+              <a class="main-header__side-item button button--transparent" href="#">Войти</a>
             </div>
-        </header>
+          </header>
 
-        <div class="content">
-            <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
-
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php $project_count = 0;?>
-                        <?php foreach ($project_cats as $key =>  $project_name):?>
-                            <?php
-                            $active_class = '';
-                            if (isset($_GET['project_id']) && $key == $_GET['project_id']) {
-                                $active_class = 'main-navigation__list-item--active';
-                            }
-                            ?>
-
-                            <li class="main-navigation__list-item <?php echo $active_class ?>" >
-                                <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
-                                <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
-                            </li>
-                            <?php $project_count++?>
-                        <?php endforeach?>
-                    </ul>
-                </nav>
-
-                <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
-            </section>
-            <?=$page_content;?>
+          <?=$page_content?>
         </div>
-    </div>
+    <? endif;?>
 </div>
 
 <footer class="main-footer">
