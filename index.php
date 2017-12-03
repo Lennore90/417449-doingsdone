@@ -1,6 +1,10 @@
 <?php
 // показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks = $_COOKIE["show_check"] ?? 0; 
+if (isset($_GET['check'])) { 
+$show_complete_tasks = !$show_complete_tasks; 
+setcookie('show_check', $show_complete_tasks, strtotime("+30 days"), '/'); 
+} 
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');

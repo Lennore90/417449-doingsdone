@@ -16,13 +16,12 @@
         </nav>
 
         <label class="checkbox">
-            <a href="/">
-                <?php
-                if ($show_complete_tasks==1) :?>
-                    <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                <?php else:?>
-                    <input class="checkbox__input visually-hidden" type="checkbox" >
-                <?php endif;?>
+            <a href="/?check">                
+                <? if ($show_complete_tasks == 0):?>
+                    <input class="checkbox__input visually-hidden" type="checkbox">
+                <? elseif ($show_complete_tasks == 1):?>
+                <input class="checkbox__input visually-hidden" type="checkbox" checked>  
+                <? endif; ?>              
                 <span class="checkbox__text">Показывать выполненные</span>
             </a>
         </label>
@@ -31,7 +30,7 @@
     <table class="tasks">
 
         <?php foreach ($array_tasks as $key => $value) :?>
-            <?php if (!$value['task_done'] || $show_complete_tasks === 1):?>
+            <?php if (!$value['task_done'] || ($show_complete_tasks == 1)):?>
                 <?php
                 $task_class = '';
                 $task_checked = '';
@@ -43,14 +42,13 @@
                         $task_class = 'task--important';
                     }
                 }
-                ?>
-            <tr class="tasks__item task <?php echo $task_class ?>")> 
+            ?>
+            <tr class="tasks__item task <?=$task_class ?>")> 
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden" type="checkbox" <?php echo $task_checked?>>
+                        <input class="checkbox__input visually-hidden" type="checkbox" <?=$task_checked?>>
                         <span class="checkbox__text"><?=$value['task_name']?></span>
-                    </label>
-                
+                    </label>                
                 </td>
                 <td class="task__file"><?=$value['task_file']?></td>
                 <td class="task__date"><?=$value['date_of_deadline']?></td>
