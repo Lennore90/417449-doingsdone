@@ -4,17 +4,7 @@ require_once('data.php');
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
-if (!isset($_SESSION)) {
-	if (!isset($login)) {
-		require_once('templates/guest.php');
-	} else {
-		if (!isset($_POST['auth_form'])) {
-			renderTemplate('templates/auth_form.php', [templates]);
-		} else {
-			if
-		}
-	}
-}
+
 
 
 // показывать или нет выполненные задачи
@@ -100,6 +90,18 @@ if (isset($_GET['project_id'])) {
 	
 if (isset($_GET['logout'])) {
 	require_once('logout.php');
+}
+
+if (!isset($_SESSION)) {
+	if (!isset($login)) {
+		$content = renderTemplate('templates/guest.php', []);
+	} else {
+		if (isset($_GET['auth_form'])) {
+			$add_form = renderTemplate('templates/auth_form.php', [templates]);
+		} else {
+			if
+		}
+	}
 }
 
 $content = renderTemplate('templates/index.php', [
