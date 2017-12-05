@@ -28,3 +28,14 @@ function count_tasks($project_name,$array_tasks){
 
 return $taskCount; }
 
+function searchUser($email, $users) {
+    $result = null;
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $result = $user;
+            break;
+        }
+    }
+
+    return $result;
+}

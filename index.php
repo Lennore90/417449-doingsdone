@@ -1,6 +1,7 @@
 <?php
 require_once('functions.php');
 require_once('data.php');
+require_once('userdata.php');
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
@@ -88,15 +89,31 @@ if (isset($_GET['project_id'])) {
 	$task_list = $array_tasks;
 }
 	
-if (isset($_GET['logout'])) {
-	require_once('logout.php');
-}
-if (isset($_GET['auth_form'])) {
+if (!isset($_SESSION)) {
+	if (!isset($_POST ['email'])) {
+		if(!isset($_GET['auth_form'])) {
+		$content = renderTemplate('templates/guest.php', []);
+		} else {
 			$content = renderTemplate('templates/auth_form.php', [
 				'class_error' => $class_error,
 				]);
-	} 
-
+		}
+	} else {
+		if(in_array($users, $_POST ['email'])) {
+			$session_start();
+			header("Location: /php-doingsdone");
+		} else {
+			$content = renderTemplate('templates/auth_form.php', [
+				'class_error' => $class_error,
+				]);
+		}	
+	}
+} else {
+	$content = renderTemplate('templates/index.php', [
+		    'show_complete_tasks' => $show_complete_tasks,
+		    'array_tasks' => $task_list,
+		]);
+}
 
 $page_layout = renderTemplate('templates/layout.php', [
     'page_title' => 'Дела в порядке', 

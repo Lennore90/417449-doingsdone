@@ -91,8 +91,12 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="/">Добавить задачу</a>
-        
+        <?php if (isset($_SESSION)):?>
+            <a class="main-footer__button button button--plus" href="/?add">Добавить задачу</a>
+        <? else :?>
+            <span class="main-footer__button button button--transparent" > </span>
+        <? endif;?>
+
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">Facebook
