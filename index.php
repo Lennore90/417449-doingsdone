@@ -91,23 +91,12 @@ if (isset($_GET['project_id'])) {
 if (isset($_GET['logout'])) {
 	require_once('logout.php');
 }
+if (isset($_GET['auth_form'])) {
+			$content = renderTemplate('templates/auth_form.php', [
+				'class_error' => $class_error,
+				]);
+	} 
 
-if (!isset($_SESSION)) {
-	if (!isset($login)) {
-		$content = renderTemplate('templates/guest.php', []);
-	} else {
-		if (isset($_GET['auth_form'])) {
-			$add_form = renderTemplate('templates/auth_form.php', [templates]);
-		} else {
-			if
-		}
-	}
-}
-
-$content = renderTemplate('templates/index.php', [
-    'show_complete_tasks' => $show_complete_tasks,
-    'array_tasks' => $task_list,
-]);
 
 $page_layout = renderTemplate('templates/layout.php', [
     'page_title' => 'Дела в порядке', 
