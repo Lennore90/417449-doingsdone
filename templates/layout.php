@@ -13,7 +13,7 @@
 
 <div class="page-wrapper">
 
-    <?php if (isset($_SESSION)):?>
+    <?php if (!isset($_SESSION)):?>
         <div class="container container--with-sidebar">
             <header class="main-header">
                 <a href="#">
@@ -91,7 +91,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if (isset($_SESSION)):?>
+        <?php if (!isset($_SESSION)):?>
             <a class="main-footer__button button button--plus" href="/?add">Добавить задачу</a>
         <? else :?>
             <span class="main-footer__button button button--transparent" > </span>
