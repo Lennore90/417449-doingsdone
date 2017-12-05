@@ -54,7 +54,7 @@
 
                                 <li class="main-navigation__list-item <?php echo $active_class ?>" >
                                     <a class="main-navigation__list-item-link" href="/?project_id=<?=$key?>"><?php echo $project_name?></a>
-                                    <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks);?></span>
+                                    <span class="main-navigation__list-item-count"><? echo count_tasks($project_name,$array_tasks); ?></span>
                                 </li>
                                 <?php $project_count++?>
                             <?php endforeach?>

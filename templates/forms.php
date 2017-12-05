@@ -5,7 +5,7 @@
 
     <form class="form"  action="index.php" method="post" enctype="multipart/form-data">
       <div class="form__row">      
-        <? if (in_array('name', $errors)){echo $error;}?>
+        <? if (in_array('name', $errors)) {echo $error;}?>
         <label class="form__label" for="name">Название <sup>*</sup></label>
 
         <input class="form__input <? if (in_array('name', $errors)){echo $class_error;}?>" type="text" name="name" id="name" value="" placeholder="Введите название">

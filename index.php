@@ -99,7 +99,7 @@ if (!isset($_SESSION)) {
 				]);
 		}
 	} else {
-		if(in_array($users, $_POST ['email'])) {
+		if (in_array($users, $_POST ['email'])) {
 			$session_start();
 			header("Location: /php-doingsdone");
 		} else {
