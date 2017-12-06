@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once('functions.php');
 require_once('data.php');
 require_once('userdata.php');
@@ -16,8 +18,9 @@ setcookie('show_check', $show_complete_tasks, strtotime("+30 days"), '/');
 } 
 
 
-
-
+$user_auth=['email', 'password'];
+$notAuser=[];
+$User_Name=" ";
 
 $required_fields=['name','project', 'date'];
 $errors=[];
@@ -25,7 +28,7 @@ $errors=[];
 $error='<p class="form__message">Заполните это поле</p>';
 $class_error='form__input--error';
 
-if (!empty($_POST)) {
+if (!empty($_POST)&&isset($_SESSION['user'])) {
   	foreach ($required_fields as $field_name) {
 	    if ($field_name != 'project' ) {
 	    	if (empty($_POST[$field_name])) {
@@ -52,7 +55,23 @@ if (!empty($_POST)) {
 		}
 
 		array_unshift($array_tasks,$new_task);
-	}	                            
+	}
+                       
+} 
+
+if ((!empty($_POST))&&(!isset($_SESSION['user']))) {
+	if (empty($_POST['email'])) {
+		$notAuser[]='email'; 
+	}else{
+		$User = searchUser($_POST['email'], $users);
+		if ((isset($_POST['password']))&&(in_array($_POST['password'], $User))) {
+			$_SESSION['user']=$User;
+			$User_Name=$User['name'];
+			header("Location: /index.php" );
+		}else {
+			$notAuser[] ='password';
+		}
+	}
 }
 
 
@@ -66,6 +85,7 @@ if (isset($_GET['add']) || !empty($errors)){
 		'project_cats' => $project_cats,
 	]);
 }
+
 
 $task_list = [];
 
@@ -89,30 +109,26 @@ if (isset($_GET['project_id'])) {
 	$task_list = $array_tasks;
 }
 	
-if (!isset($_SESSION)) {
-	if (!isset($_POST ['email'])) {
-		if(!isset($_GET['auth_form'])) {
-		$content = renderTemplate('templates/guest.php', []);
-		} else {
-			$content = renderTemplate('templates/auth_form.php', [
-				'class_error' => $class_error,
-				]);
-		}
-	} else {
-		if (in_array($users, $_POST ['email'])) {
-			$session_start();
-			header("Location: /php-doingsdone");
-		} else {
-			$content = renderTemplate('templates/auth_form.php', [
-				'class_error' => $class_error,
-				]);
-		}	
+
+if (!isset($_SESSION['user'])) {
+	$content = renderTemplate('templates/guest.php', []);
+	if(isset($_GET['auth_form'])||!empty($notAuser)) {
+		$add_form=renderTemplate('templates/auth_form.php', [
+			'errors' => $errors,
+			'error' => $error,
+			'class_error' => $class_error,
+			'notAuser' => $notAuser,
+			'users' => $users,
+		]);
 	}
 } else {
 	$content = renderTemplate('templates/index.php', [
 		    'show_complete_tasks' => $show_complete_tasks,
 		    'array_tasks' => $task_list,
 		]);
+	if (isset($_GET['logout'])) {
+		require_once('logout.php');
+	}
 }
 
 $page_layout = renderTemplate('templates/layout.php', [
@@ -121,6 +137,7 @@ $page_layout = renderTemplate('templates/layout.php', [
     'project_cats' => $project_cats,
     'array_tasks' => $array_tasks,
     'add_form' => $add_form,
+    'User_Name' => $User_Name,
 ]);
 
 print ($page_layout);

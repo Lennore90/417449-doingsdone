@@ -1,5 +1,4 @@
 <?php
 $_SESSION=[];
-$login=null;
-header("Location: /php-doingsdone" );
+header("Location: /index.php" );
 ?>
