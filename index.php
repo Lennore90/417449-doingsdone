@@ -21,6 +21,7 @@ setcookie('show_check', $show_complete_tasks, strtotime("+30 days"), '/');
 $user_auth=['email', 'password'];
 $notAuser=[];
 $User_Name=" ";
+$User=null;
 
 $required_fields=['name','project', 'date'];
 $errors=[];
@@ -59,19 +60,30 @@ if (!empty($_POST)&&isset($_SESSION['user'])) {
                        
 } 
 
-if ((!empty($_POST))&&(!isset($_SESSION['user']))) {
-	if (empty($_POST['email'])) {
-		$notAuser[]='email'; 
-	}else{
-		$User = searchUser($_POST['email'], $users);
-		if ((isset($_POST['password']))&&(in_array($_POST['password'], $User))) {
-			$_SESSION['user']=$User;
-			$User_Name=$User['name'];
-			header("Location: /index.php" );
-		}else {
-			$notAuser[] ='password';
+if ((isset($_POST))&&(!isset($_SESSION['user']))) {
+	foreach ($notAuser as $required) {
+		if (empty($_POST[$required])) {
+			$notAuser[]=$required;
 		}
 	}
+
+	if (!empty($_POST['email'])) {
+		if(!filter_var($_POST['email'] , FILTER_VALIDATE_EMAIL)) {
+			$notAuser[]='email';
+		} elseif (searchUser($_POST['email'], $users) == null) {
+			$notAuser[]='email';
+		} else {
+			$User = searchUser($_POST['email'], $users);
+		}
+	}
+
+	if ((!empty($_POST['password']))&&(in_array($_POST['password'], $User))) {
+		$_SESSION['user']=$User;
+		$User_Name=$User['name'];
+		header("Location: /index.php" );
+	}else {
+		$notAuser[] ='password';
+	}		
 }
 
 
@@ -112,7 +124,7 @@ if (isset($_GET['project_id'])) {
 
 if (!isset($_SESSION['user'])) {
 	$content = renderTemplate('templates/guest.php', []);
-	if(isset($_GET['auth_form'])||!empty($notAuser)) {
+	if(isset($_GET['auth_form'])||(!empty($notAuser))) {
 		$add_form=renderTemplate('templates/auth_form.php', [
 			'errors' => $errors,
 			'error' => $error,
