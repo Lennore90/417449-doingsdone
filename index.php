@@ -18,12 +18,14 @@ setcookie('show_check', $show_complete_tasks, strtotime("+30 days"), '/');
 } 
 
 
-$user_auth=['email', 'password'];
 $notAuser=[];
 $User_Name=" ";
 $User=null;
 
-$required_fields=['name','project', 'date'];
+$required_fields = [
+    'login' => ['email','password'],
+    'add' => ['name','project','date']
+];
 $errors=[];
 
 $error='<p class="form__message">Заполните это поле</p>';
