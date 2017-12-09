@@ -16,12 +16,21 @@
         </nav>
 
         <label class="checkbox">
+<<<<<<< HEAD
             <a href="/?check">                
                 <? if ($show_complete_tasks == 0):?>
                     <input class="checkbox__input visually-hidden" type="checkbox">
                 <? elseif ($show_complete_tasks == 1):?>
                 <input class="checkbox__input visually-hidden" type="checkbox" checked>  
                 <? endif; ?>              
+=======
+            <a href="/?check">
+                <?if ($show_complete_tasks == 1) :?>
+                    <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                <? else:?>
+                    <input class="checkbox__input visually-hidden" type="checkbox">
+                <? endif;?>               
+>>>>>>> 628120d99c53449c60fda39df4f0ada7c92fac6b
                 <span class="checkbox__text">Показывать выполненные</span>
             </a>
         </label>
