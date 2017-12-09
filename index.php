@@ -138,5 +138,4 @@ $page_layout = renderTemplate('templates/layout.php', [
 ]);
  
 print ($page_layout);
-var_dump($_SESSION);
 ?>
