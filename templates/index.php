@@ -16,21 +16,12 @@
         </nav>
 
         <label class="checkbox">
-<<<<<<< HEAD
-            <a href="/?check">                
-                <? if ($show_complete_tasks == 0):?>
-                    <input class="checkbox__input visually-hidden" type="checkbox">
-                <? elseif ($show_complete_tasks == 1):?>
-                <input class="checkbox__input visually-hidden" type="checkbox" checked>  
-                <? endif; ?>              
-=======
             <a href="/?check">
                 <?if ($show_complete_tasks == 1) :?>
                     <input class="checkbox__input visually-hidden" type="checkbox" checked>
                 <? else:?>
                     <input class="checkbox__input visually-hidden" type="checkbox">
                 <? endif;?>               
->>>>>>> 628120d99c53449c60fda39df4f0ada7c92fac6b
                 <span class="checkbox__text">Показывать выполненные</span>
             </a>
         </label>
@@ -51,13 +42,14 @@
                         $task_class = 'task--important';
                     }
                 }
-            ?>
+                ?>
             <tr class="tasks__item task <?=$task_class ?>")> 
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden" type="checkbox" <?=$task_checked?>>
                         <span class="checkbox__text"><?=$value['task_name']?></span>
-                    </label>                
+                    </label>
+                
                 </td>
                 <td class="task__file"><?=$value['task_file']?></td>
                 <td class="task__date"><?=$value['date_of_deadline']?></td>

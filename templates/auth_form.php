@@ -5,7 +5,7 @@
 		<div class="form__row">
 			<label class="form__label" for="email">E-mail <sup>*</sup></label>
 			<? if (!empty($_POST)&&empty($_POST['email'])){echo $error;}?>
-			<input class="form__input <?if (in_array('email', $errors)||(!empty($_POST)&&empty($user))) {echo $class_error;}?>" type="text" name="email" id="email" value="<? if (!empty($_POST['email'])){echo $_POST['email'];}?>" placeholder="Введите e-mail">
+			<input class="form__input <?if (in_array('email', $errors)) {echo $class_error;}?>" type="text" name="email" id="email" value="<? if (!empty($_POST['email'])){echo $_POST['email'];}?>" placeholder="Введите e-mail">
 			<? if ((isset($_POST['email']))&&(!filter_var($_POST['email'] , FILTER_VALIDATE_EMAIL))):?>
 				<p class="form__message">E-mail введён некорректно</p>
 			<? elseif (isset($_POST['email'])&&empty($user)):?>
