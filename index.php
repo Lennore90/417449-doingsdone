@@ -38,9 +38,7 @@ if (!empty($_POST['action'])) {
     if (empty($errors[$action])) {
         if ($action == 'login') {
             $user = searchUser($_POST['email'],$users);
-            if (!empty($user)) {
-            	$errors[$action][] = 'email';
-            } elseif (password_verify($_POST['password'],$user['password'])) {
+            if (!empty($user)&&(password_verify($_POST['password'],$user['password']))) {
                 $_SESSION['user'] = $user;
                 header("Location: /index.php" );
             } else {
@@ -99,6 +97,7 @@ if (isset($_GET['check'])) {
 $add_form = '';
  
 if (!isset($_SESSION['user'])) {
+    $user=[];
     $content = renderTemplate('templates/guest.php', []);
    
     if(isset($_GET['auth_form'])||(!empty($errors['login']))) {
@@ -135,8 +134,9 @@ $page_layout = renderTemplate('templates/layout.php', [
     'project_cats' => $project_cats,
     'array_tasks' => $array_tasks,
     'add_form' => $add_form,
+    'user' => $_SESSION ['user'],
 ]);
  
 print ($page_layout);
-var_dump($user);
+var_dump($_SESSION);
 ?>
