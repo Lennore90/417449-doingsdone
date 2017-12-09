@@ -18,7 +18,7 @@
         <select class="form__input form__input--select <? if (in_array('project', $errors)){echo $class_error;}?>" name="project" id="project">
           <option value="Select category">---Выберите категорию---</option>
           <? foreach ($project_cats as $key => $value) :?>
-                <?if (!$key == 0 ) :?>
+                <?if ($key != 0 ) :?>
           <option value="<? echo $value; ?>"><? echo $value; ?></option>
               <? endif;?> 
           <? endforeach; ?>
@@ -45,6 +45,7 @@
       </div>
 
       <div class="form__row form__row--controls">
+        <input type='hidden' name='action' value='add'>
         <input class="button" type="submit" name="" value="Добавить">
       </div>
     </form>
